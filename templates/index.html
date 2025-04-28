@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadSense AI | Advanced Traffic Detection</title>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        /* Base Styles and Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: #fff;
+            background-color: #0a0a0a;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Video Styling */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            position: absolute;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        /* Header Styling */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            cursor: pointer;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background: linear-gradient(90deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .quote-container {
+            max-width: 900px;
+            opacity: 0; /* Start invisible for animation */
+        }
+
+        .title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #0066ff, #00c3ff, #0066ff);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradient 3s linear infinite;
+        }
+
+        @keyframes gradient {
+            0% {background-position: 0% center;}
+            50% {background-position: 100% center;}
+            100% {background-position: 0% center;}
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #eee;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 120px 10%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(90deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #0066ff, #00c3ff);
+            border-radius: 2px;
+        }
+
+        /* Tech Sections */
+        .tech-content {
+            display: flex;
+            align-items: center;
+            gap: 5%;
+            position: relative;
+        }
+
+        .tech-content.reversed {
+            flex-direction: row-reverse;
+        }
+
+        .tech-description {
+            flex: 1;
+            position: relative;
+            z-index: 5;
+        }
+
+        .tech-visual {
+            flex: 1;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tech-description h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .tech-description p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #ddd;
+            font-size: 1.1rem;
+        }
+
+        .tech-description ul {
+            list-style-position: inside;
+            color: #ddd;
+        }
+
+        .tech-description ul li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-description ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00c3ff;
+        }
+
+        /* Features Section */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 102, 255, 0.2);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0066ff, #00c3ff);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #bbb;
+            font-size: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Lane Animation Styling */
+        .lane-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            background-color: #222;
+            overflow: hidden;
+        }
+
+        .road {
+            position: absolute;
+            width: 100%;
+            height: 200%;
+            background-color: #333;
+            transform: rotateX(60deg);
+            transform-origin: center bottom;
+            top: -50%;
+        }
+
+        .lane-marker {
+            position: absolute;
+            width: 10px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.8);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Object Detection Styling */
+        .detection-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            overflow: hidden;
+        }
+
+        .object {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .detection-box {
+            position: absolute;
+            border: 2px dashed #00c3ff;
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        .detection-label {
+            position: absolute;
+            background-color: #0066ff;
+            color: white;
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 3px;
+            top: -20px;
+            left: 0;
+            white-space: nowrap;
+        }
+
+        /* Contact Form */
+        .contact-section {
+            background: linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)), url('https://media.istockphoto.com/id/1660570200/photo/hand-of-call-center-touching-on-screen-contact-us-email-address-operator-customer-suppor.webp?a=1&b=1&s=612x612&w=0&k=20&c=NhV81vE6U-_OT6pBqRjUOEof8QzskCgk7z2nxnEEhSE=') center/cover no-repeat;
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 5%;
+            margin-top: 2rem;
+        }
+
+        .contact-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .info-item .icon {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .info-item p {
+            color: #ddd;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            padding: 3rem 10%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #0066ff, #00c3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #00c3ff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-icon:hover {
+            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            color: #777;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 20px;
+            height: 0;
+            background: linear-gradient(to top, #0066ff, #00c3ff);
+            border-radius: 2px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .title {
+                font-size: 3.5rem;
+            }
+
+            .tech-content {
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            .tech-content.reversed {
+                flex-direction: column;
+            }
+
+            .contact-container {
+                flex-direction: column;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 5%;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .title {
+                font-size: 2.8rem;
+            }
+            
+            .quote {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 80px 5%;
+            }
+
+            .section h2 {
+                font-size: 2.5rem;
+            }
+
+            .tech-description h3 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video Container -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline id="bg-video">
+            <source src="https://cdn.pixabay.com/video/2023/02/25/152184-802335622_tiny.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <header>
+        <div class="logo" id="logo">RoadSense AI</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#lane-detection">Lane Detection</a></li>
+                <li><a href="#object-detection">Object Detection</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <button id="play-sound-btn" style="margin-top:1.5rem; padding:0.8rem 2rem; border-radius:30px; border:none; background:linear-gradient(90deg,#0066ff,#00c3ff); color:#fff; font-size:1.1rem; font-weight:600; cursor:pointer;">
+                    ▶ Play Sound
+                  </button>
+                  <audio id="bg-music" src="{{ url_for('static', filename='song2.mp3') }}"></audio>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+       
+
+        <section class="hero" id="home">
+            <div class="quote-container">
+                <h1 class="title">Smart System, Safer Journeys</h1>
+                <p class="quote">"Our AI doesn't just see the road, it predicts the future. Advanced algorithms that transform ordinary cameras into lifesaving technology."</p>
+                <button class="cta-button" style="opacity: 1;"> <a href="/options" style="text-decoration: none;">Get Started</a></button>
+                
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <h2>Pioneering Traffic Intelligence</h2>
+            <div class="tech-content">
+                <div class="tech-description">
+                    <h3>Final Year Project</h3>
+                    <p>RoadSense AI represents the culmination of cutting-edge research in computer vision and artificial intelligence. Our system transforms ordinary traffic cameras into intelligent sensors that can identify lane markings, detect objects, and predict potential hazards in real-time.</p>
+                    <p>Developed as a final year project, this technology demonstrates how affordable cameras can replace expensive sensors, making advanced safety systems accessible to all communities and transportation authorities.</p>
+                    <ul>
+                        <li>Real-time processing at 60+ frames per second</li>
+                        <li>Works in various lighting and weather conditions</li>
+                        <li>Integration with existing traffic infrastructure</li>
+                        <li>Open-source architecture for continuous improvement</li>
+                    </ul>
+                </div>
+                <div class="tech-visual">
+                    <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="https://cdn.pixabay.com/video/2020/06/17/42410-431738672_tiny.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <section id="lane-detection" class="section">
+            <h2>Lane Detection Technology</h2>
+            <div class="tech-content">
+                <div class="tech-description">
+                    <h3>Stay in the lines, automatically</h3>
+                    <p>Our advanced lane detection system uses convolutional neural networks to identify lane markings even in challenging conditions. The algorithm processes video feeds frame-by-frame to track road boundaries with exceptional accuracy.</p>
+                    <ul>
+                        <li>Real-time lane boundary identification</li>
+                        <li>Works on unmarked or faded roads</li>
+                        <li>Night vision capability with infrared support</li>
+                        <li>Curve prediction for proactive steering assistance</li>
+                    </ul>
+                </div>
+                <div class="tech-visual">
+                    <div class="lane-container">
+                        <div class="road" id="road">
+                            <!-- Lane markers will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="object-detection" class="section">
+            <h2>Object Detection System</h2>
+            <div class="tech-content reversed">
+                <div class="tech-visual">
+                    <div class="detection-container" id="detection-container">
+                        <!-- Objects will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="tech-description">
+                    <h3>See what matters, instantly</h3>
+                    <p>Our object detection algorithm can identify and classify multiple objects simultaneously, from pedestrians and cyclists to vehicles and road signs. With millisecond processing times, the system provides drivers with crucial information before human perception can react.</p>
+                    <ul>
+                        <li>Multi-class object recognition</li>
+                        <li>Distance and trajectory estimation</li>
+                        <li>Collision risk assessment</li>
+                        <li>99.7% accuracy in standard conditions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <h2>Intelligent Features</h2>
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Real-Time Processing</h3>
+                    <p>Advanced algorithms that process video feeds at 60+ frames per second, providing immediate feedback and alerts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Web  Integration</h3>
+                    <p>Web Platfrom for demonstrates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌦️</div>
+                    <h3>Robust model</h3>
+                    <p>Specialized training ensures our AI performs reliably in rain, fog, snow, and low-light conditions even in sernarios of different country.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔊</div>
+                    <h3>Audio Alerts</h3>
+                    <p>Customizable voice warnings that keep drivers informed without distracting their attention from the road.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Data Analytics</h3>
+                    <p>Comprehensive data collection and analysis for traffic pattern optimization and infrastructure planning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Easy Deployment</h3>
+                    <p>Simple installation process that integrates with existing traffic cameras and monitoring systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact-section">
+            <h2>Get in Touch</h2>
+            <div class="contact-container">
+                <form class="contact-form">
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea placeholder="Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+                <div class="contact-info">
+                    <div class="info-item">
+                        <span class="icon">📍</span>
+                        <p>Engineering Department, University Campus<br>Innovation Drive, Tech City</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📱</span>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">✉️</span>
+                        <p>project@roadsense.ai</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">🔗</span>
+                        <p>github.com/roadsense-ai</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">RoadSense AI</div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#lane-detection">Lane Detection</a>
+                <a href="#object-detection">Object Detection</a>
+                <a href="#features">Features</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon">🐦</a>
+                <a href="#" class="social-icon">📘</a>
+                <a href="#" class="social-icon">📸</a>
+                <a href="#" class="social-icon">🎥</a>
+            </div>
+            <p class="copyright">© 2025 RoadSense AI | Final Year Project. All rights reserved.</p>
+        </div>
+        
+        
+        
+        
+        <audio id="bg-music" autoplay loop muted>
+            <source src="./song2.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+    </footer>
+    
+    <!-- Main JavaScript -->
+    <script>
+        
+        const music = document.getElementById('bg-music');
+
+  // Try to unmute and play after user interaction (1st time visit)
+  document.addEventListener('DOMContentLoaded', () => {
+    // Attempt to play muted audio
+    music.play().then(() => {
+      console.log("Muted autoplay started.");
+    }).catch(err => {
+      console.warn("Muted autoplay blocked.");
+    });
+  });
+
+  // Unmute and play after ANY user interaction
+  function activateSound() {
+    music.muted = false;
+    music.play().then(() => {
+      console.log("Audio unmuted and playing.");
+    }).catch(err => {
+      console.warn("Play still blocked.", err);
+    });
+
+    // Remove listener so it only happens once
+    document.removeEventListener('click', activateSound);
+  }
+
+  // Set event listener for unmuting on user interaction
+  document.addEventListener('click', activateSound);
+
+
+
+
+
+
+
+
+
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Initialize lane detection animation
+            initLaneDetection();
+            
+            // Initialize object detection animation
+            initObjectDetection();
+        });
+
+        // Main animation initializer
+        function initAnimations() {
+            // Animate header on page load
+            animateHeader();
+            
+            // Animate hero section
+            animateHero();
+            
+            // Animate sections on scroll
+            animateSections();
+            
+            // Animate feature cards
+            animateFeatureCards();
+        }
+
+        // Animate the header and navigation
+        function animateHeader() {
+            const tl = gsap.timeline();
+            
+            tl.from('#logo', {
+                y: -50,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+            
+            tl.from('nav ul li', {
+                y: -50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out'
+            }, '-=0.5');
+            
+            // Change header background on scroll
+            ScrollTrigger.create({
+                start: 'top top',
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    const scroll = self.progress;
+                    gsap.to('header', {
+                        backgroundColor: `rgba(10, 10, 10, ${0.8 + scroll * 0.2})`,
+                        boxShadow: scroll > 0.05 ? '0 5px 15px rgba(0, 0, 0, 0.3)' : 'none',
+                        duration: 0.3
+                    });
+                }
+            });
+        }
+
+        // Animate the hero section
+        function animateHero() {
+            const tl = gsap.timeline();
+            
+            tl.to('.quote-container', {
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.out'
+            });
+            
+            tl.from('.title', {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: 'back.out(1.7)'
+            }, '-=0.5');
+            
+            tl.from('.quote', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power2.out'
+            }, '-=0.7');
+            
+            tl.from('.cta-button', {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'back.out(1.7)'
+            }, '-=0.5');
+        }
+
+        // Animate sections as they come into view
+        function animateSections() {
+            // Select all sections except the hero
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                // Animate section heading
+                gsap.from(section.querySelector('h2'), {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: 'top 50%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+                
+                // Animate section content
+                const content = section.querySelector('.tech-content, .features-container, .contact-container');
+                if (content) {
+                    gsap.from(content, {
+                        y: 50,
+                        opacity: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 70%',
+                            end: 'top 40%',
+                            toggleActions: 'play none none none'
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initialize lane detection animation
+        function initLaneDetection() {
+            const road = document.getElementById('road');
+            
+            if (road) {
+                // Create lane markers
+                for (let i = 0; i < 20; i++) {
+                    const leftLane = document.createElement('div');
+                    leftLane.classList.add('lane-marker');
+                    leftLane.style.left = '30%';
+                    leftLane.style.top = `${-100 + i * 150}px`;
+                    road.appendChild(leftLane);
+                    
+                    const rightLane = document.createElement('div');
+                    rightLane.classList.add('lane-marker');
+                    rightLane.style.left = '70%';
+                    rightLane.style.top = `${-100 + i * 150}px`;
+                    road.appendChild(rightLane);
+                    
+                    // Animate lane markers
+                    gsap.to(leftLane, {
+                        y: 800,
+                        duration: 4,
+                        repeat: -1,
+                        ease: 'none',
+                        delay: i * 0.15
+                    });
+                    
+                    gsap.to(rightLane, {
+                        y: 800,
+                        duration: 4,
+                        repeat: -1,
+                        ease: 'none',
+                        delay: i * 0.15
+                    });
+                }
+                
+                // Create dynamic lane marker analysis effect
+                setInterval(() => {
+                    const analysisMark = document.createElement('div');
+                    analysisMark.style.position = 'absolute';
+                    analysisMark.style.top = '50%';
+                    analysisMark.style.left = '30%';
+                    analysisMark.style.width = '40%';
+                    analysisMark.style.height = '2px';
+                    analysisMark.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
+                    analysisMark.style.boxShadow = '0 0 10px rgba(0, 195, 255, 0.7)';
+                    analysisMark.style.zIndex = '10';
+                    road.appendChild(analysisMark);
+                    
+                    gsap.to(analysisMark, {
+                        opacity: 0,
+                        duration: 1,
+                        onComplete: () => {
+                            analysisMark.remove();
+                        }
+                    });
+                }, 2000);
+            }
+        }
+
+        // Initialize object detection animation
+        function initObjectDetection() {
+            const container = document.getElementById('detection-container');
+            
+            if (container) {
+                // Define object types
+                const objectTypes = [
+                    { type: 'car', width: 80, height: 40, color: 'rgba(0, 195, 255, 0.2)' },
+                    { type: 'pedestrian', width: 20, height: 40, color: 'rgba(255, 0, 128, 0.2)' },
+                    { type: 'bicycle', width: 40, height: 30, color: 'rgba(255, 255, 0, 0.2)' },
+                    { type: 'truck', width: 100, height: 50, color: 'rgba(0, 255, 128, 0.2)' }
+                ];
+                
+                // Create objects periodically
+                setInterval(() => {
+                    const objectType = objectTypes[Math.floor(Math.random() * objectTypes.length)];
+                    const object = document.createElement('div');
+                    object.classList.add('object');
+                    
+                    const posX = Math.random() * (container.offsetWidth - objectType.width);
+                    const posY = Math.random() * (container.offsetHeight - objectType.height);
+                    
+                    object.style.width = objectType.width + 'px';
+                    object.style.height = objectType.height + 'px';
+                    object.style.backgroundColor = objectType.color;
+                    object.style.left = posX + 'px';
+                    object.style.top = posY + 'px';
+                    
+                    container.appendChild(object);
+                    
+                    // Create detection box with slight delay to simulate detection process
+                    setTimeout(() => {
+                        const detectionBox = document.createElement('div');
+                        detectionBox.classList.add('detection-box');
+                        detectionBox.style.width = (objectType.width + 10) + 'px';
+                        detectionBox.style.height = (objectType.height + 10) + 'px';
+                        detectionBox.style.left = (posX - 5) + 'px';
+                        detectionBox.style.top = (posY - 5) + 'px';
+                        
+                        // Add label
+                        const label = document.createElement('div');
+                        label.classList.add('detection-label');
+                        label.innerText = objectType.type + ' ' + Math.floor(Math.random() * 100) + '%';
+                        detectionBox.appendChild(label);
+                        
+                        container.appendChild(detectionBox);
+                        
+                        // Animate detection box
+                        gsap.to(detectionBox, {
+                            boxShadow: '0 0 10px rgba(0, 195, 255, 0.7)',
+                            borderColor: '#00c3ff',
+                            duration: 0.3,
+                            yoyo: true,
+                            repeat: 3
+                        });
+                        
+                        // Remove objects after animation
+                        setTimeout(() => {
+                            object.remove();
+                            detectionBox.remove();
+                        }, 3000);
+                    }, 300);
+                }, 1500);
+            }
+        }
+
+        // Animate feature cards
+        function animateFeatureCards() {
+            const cards = document.querySelectorAll('.feature-card');
+            
+            cards.forEach((card, index) => {
+                gsap.from(card, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: '.features-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+        }
+
+        // Add page preloader
+        window.addEventListener('load', function() {
+            const preloader = document.createElement('div');
+            preloader.classList.add('preloader');
+            preloader.innerHTML = `
+                <div class="loader">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            `;
+            document.body.appendChild(preloader);
+            
+            // Animate preloader
+            const tl = gsap.timeline();
+            tl.to('.bar', {
+                height: '100px',
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power2.inOut'
+            });
+            
+            tl.to('.preloader', {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    preloader.remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

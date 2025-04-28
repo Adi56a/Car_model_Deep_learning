@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YOLOv11 Object Detection</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #121212);
+      color: #ffffff;
+      text-align: center;
+      padding: 50px 20px;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .upload-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 30px rgba(0, 184, 148, 0.2);
+      transition: 0.3s ease;
+    }
+
+    .upload-box:hover {
+      box-shadow: 0 0 40px rgba(0, 184, 148, 0.3);
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      padding: 12px 20px;
+      cursor: pointer;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #00b894, #00cec9);
+      color: white;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      background: linear-gradient(90deg, #00cec9, #00b894);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #fileNameDisplay {
+      margin-top: 10px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      background: #00b894;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #00cec9;
+    }
+
+    .progress-container {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .progress-wrapper {
+      width: 100%;
+      background: #2e2e2e;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(to right, #00b894, #00cec9);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    #progressText {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    #downloadSection {
+      display: none;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Object Detection</h1>
+
+  <div class="upload-box">
+    <form id="uploadForm">
+      <label class="custom-file-upload">📁 Choose Image/Video
+        <input type="file" id="mediaInput" name="media" accept="image/*,video/*" required>
+      </label>
+      <span id="fileNameDisplay"></span>
+      <button type="submit">🚀 Process</button>
+    </form>
+    
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-wrapper">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <p id="progressText">Waiting...</p>
+    </div>
+    
+    <div id="downloadSection">
+      <h2>✅ Processing Complete!</h2>
+      
+      <!-- Video download -->
+      <a id="downloadLink" href="" download style="display:none;">
+        <button>⬇️ Download Processed Video</button>
+      </a>
+      
+      <!-- Processed image preview -->
+      <img id="outputImage" src="" alt="Processed Image" style="max-width:100%; display:none; margin-top:20px;">
+      
+      <!-- Image download -->
+      <a id="downloadImageLink" href="/od-image-download" download style="display:none;">
+        <button>⬇️ Download Processed Image</button>
+      </a>
+    </div>
+    
+  <script>
+    const form = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('mediaInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadLink = document.getElementById('downloadLink');
+    const downloadImageLink = document.getElementById('downloadImageLink');
+    const outputImage = document.getElementById('outputImage');
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      fileNameDisplay.textContent = file ? `Selected: ${file.name}` : '';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('media', file);
+
+      const isVideo = file.type.startsWith("video");
+
+      progressBar.style.width = "0%";
+      progressText.innerText = "Starting...";
+      downloadSection.style.display = "none";
+      outputImage.style.display = "none";
+      downloadLink.style.display = "none";
+      downloadImageLink.style.display = "none";
+      progressContainer.style.display = 'block';
+
+      gsap.to(progressBar, { width: "30%", duration: 1 });
+
+      try {
+        const res = await fetch(isVideo ? '/od-video-upload' : '/od-image-upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+
+          gsap.to(progressBar, {
+            width: "100%",
+            duration: 1,
+            onUpdate: () => {
+              progressText.innerText = isVideo ? "Processing video..." : "Processing image...";
+            },
+            onComplete: () => {
+              progressText.innerText = "Processing complete!";
+              gsap.to(".upload-box", { opacity: 0.8, duration: 0.5 });
+
+              if (isVideo) {
+                downloadLink.href = result.path;
+                downloadLink.style.display = "inline-block";
+              } else {
+                outputImage.src = result.path;
+                outputImage.style.display = "block";
+                downloadImageLink.style.display = "inline-block";
+              }
+
+              downloadSection.style.display = "block";
+            }
+          });
+        } else {
+          progressText.innerText = "Upload failed. Try again.";
+          progressBar.style.background = "red";
+        }
+      } catch (err) {
+        progressText.innerText = "Error during upload.";
+        progressBar.style.background = "red";
+      }
+    });
+  </script>
+
+</body>
+</html>

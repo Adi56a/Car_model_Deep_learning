@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLO-P Vision Suite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #2dd4bf;
+      --glass: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.16);
+      --radius: 1.2rem;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      background: var(--glass);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6vw;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-item {
+      color: #f8fafc;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+      opacity: 0.8;
+    }
+    .nav-item:hover { color: var(--accent); opacity: 1; }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 100px;
+      gap: 3vw;
+      width: 100vw;
+    }
+    .upload-section, .result-section {
+      flex: 1 1 350px;
+      max-width: 480px;
+      min-width: 320px;
+      margin: 2vw 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .upload-card, .result-card {
+      width: 100%;
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+      border: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.25s;
+    }
+    .upload-card:hover, .result-card:hover {
+      box-shadow: 0 12px 40px 0 rgba(45,212,191,0.10);
+    }
+    .hero-text {
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .custom-upload {
+      border: 2px dashed var(--accent);
+      border-radius: 0.7rem;
+      background: rgba(45,212,191,0.05);
+      padding: 2rem 1rem;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .custom-upload:hover {
+      background: rgba(45,212,191,0.13);
+    }
+    .custom-upload svg {
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      opacity: 0.75;
+    }
+    .upload-label {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #e0f7fa;
+      opacity: 0.93;
+    }
+    #file-name {
+      margin-top: 0.7rem;
+      font-size: 0.98rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      word-break: break-all;
+    }
+    #file-input { display: none; }
+    #submit-btn {
+      background: linear-gradient(90deg, var(--accent), #14b8a6);
+      border: none;
+      padding: 1rem 0;
+      color: #fff;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 0.7rem;
+      box-shadow: 0 2px 12px 0 rgba(45,212,191,0.09);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #submit-btn:hover {
+      box-shadow: 0 6px 24px 0 rgba(45,212,191,0.17);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .result-card h2 {
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 0.3px;
+    }
+    .result-image {
+      width: 100%;
+      border-radius: 0.8rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 4px 16px 0 rgba(45,212,191,0.12);
+      background: #222a35;
+    }
+    .download-btn {
+      padding: 0.85rem 1.5rem;
+      background: linear-gradient(90deg, var(--accent), #14b8a6);
+      border-radius: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px 0 rgba(45,212,191,0.09);
+      display: inline-block;
+    }
+    .download-btn:hover {
+      background: linear-gradient(90deg, #14b8a6, var(--accent));
+      box-shadow: 0 6px 24px 0 rgba(45,212,191,0.14);
+    }
+    @media (max-width: 900px) {
+      main { flex-direction: column; align-items: stretch; gap: 0; }
+      .upload-section, .result-section { max-width: 100vw; min-width: 0; }
+    }
+    @media (max-width: 600px) {
+      .nav { padding: 1rem 4vw; }
+      .upload-card, .result-card { padding: 1.5rem 0.7rem; }
+      .hero-text { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="logo">YOLO-P<span>Vision</span></div>
+    <div class="nav-links">
+    
+    </div>
+  </nav>
+  <main data-scroll-container>
+    <section class="upload-section" data-scroll>
+      <div class="upload-card">
+        <div class="hero-text">Advanced Lane Detection</div>
+        <form method="POST" enctype="multipart/form-data">
+          <label class="custom-upload">
+            <input type="file" name="file" id="file-input" accept="image/*" required>
+            <span class="upload-label">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <span>Drag & drop or click to upload</span>
+              <span id="file-name"></span>
+            </span>
+          </label>
+          <input type="submit" value="Analyze Image" id="submit-btn">
+        </form>
+      </div>
+    </section>
+    <section class="result-section" data-scroll>
+      {% if result %}
+      <div class="result-card">
+        <h2>Detection Results</h2>
+        <img src="{{ result }}" class="result-image" alt="Lane Detection Result">
+        <a href="{{ url_for('download_lane_result', filename=download) }}" class="download-btn">
+          Download Analysis
+        </a>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+  <script>
+    // Locomotive Scroll
+    const scroll = new LocomotiveScroll({
+      el: document.querySelector('[data-scroll-container]'),
+      smooth: true,
+      smartphone: { smooth: true },
+      tablet: { smooth: true }
+    });
+    // GSAP Animations
+    gsap.from(".nav", { y: -40, opacity: 0, duration: 1, ease: "power4.out" });
+    gsap.from(".upload-card", { y: 40, opacity: 0, duration: 1, delay: 0.3, ease: "power4.out" });
+    gsap.from(".hero-text", { y: 30, opacity: 0, duration: 1, delay: 0.5, ease: "power4.out" });
+    gsap.from(".nav-item", { x: -20, opacity: 0, duration: 0.8, stagger: 0.1, delay: 0.7, ease: "expo.out" });
+    // Animate result card if present
+    if(document.querySelector('.result-card')) {
+      gsap.from(".result-card", { scale: 0.95, opacity: 0, duration: 0.8, delay: 0.6, ease: "power4.out" });
+    }
+    // Show selected file name
+    document.getElementById('file-input').addEventListener('change', function(e){
+      const file = e.target.files[0];
+      document.getElementById('file-name').textContent = file ? file.name : '';
+    });
+  </script>
+</body>
+</html>
