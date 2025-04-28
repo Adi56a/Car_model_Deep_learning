@@ -1,0 +1,7 @@
+2025-04-23 19:56:12,828 Using torch 2.6.0+cpu CPU
+2025-04-23 19:56:12,829 
+2025-04-23 19:56:14,029 127.0.0.1 - - [23/Apr/2025 19:56:14] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-04-23 19:56:14,158 127.0.0.1 - - [23/Apr/2025 19:56:14] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-23 19:56:14,163 127.0.0.1 - - [23/Apr/2025 19:56:14] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-23 19:56:14,219 127.0.0.1 - - [23/Apr/2025 19:56:14] "GET /?__debugger__=yes&cmd=resource&f=console.png&s=ZDDPrt1cMeNWWFaOu9Ql HTTP/1.1" 200 -
+2025-04-23 19:58:08,879  * Detected change in 'D:\\my_projectttttttttttt\\car_model_lane_testing\\YOLOP\\inference\\detector.py', reloading
