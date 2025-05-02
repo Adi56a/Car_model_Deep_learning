@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RoadSense AI | Advanced Traffic Detection</title>
-    <!-- GSAP CDN -->
+
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/J6AUc1UuFQz+B7fHhlspASgj1LJ5D4TGf04jTEFYz1+JKKJ1DZoEtNTyyG5Vv5pH78yoWj+QA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
-        /* Base Styles and Reset */
+        
         * {
             margin: 0;
             padding: 0;
@@ -126,7 +129,7 @@
         }
 
         .title {
-            font-size: 4rem;
+            font-size: 5rem;
             margin-bottom: 1.5rem;
             font-weight: 700;
             line-height: 1.2;
@@ -136,6 +139,7 @@
             -webkit-background-clip: text;
             color: transparent;
             animation: gradient 3s linear infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         @keyframes gradient {
@@ -146,16 +150,17 @@
 
         .quote {
             font-size: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 0rem;
             line-height: 1.6;
             color: #eee;
         }
 
         .cta-button {
             padding: 1rem 2rem;
+            margin-top: 15px;
             font-size: 1rem;
             font-weight: 600;
-            background: linear-gradient(135deg, #0066ff, #00c3ff);
+            background: linear-gradient(135deg, #acb0b6, #00c3ff);
             color: white;
             border: none;
             border-radius: 50px;
@@ -324,7 +329,7 @@
             width: 100%;
             height: 100%;
             perspective: 1000px;
-            background-color: #222;
+            background-color: #22222258;
             overflow: hidden;
         }
 
@@ -352,7 +357,7 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background-color: #222;
+            background-color: #22222254;
             overflow: hidden;
         }
 
@@ -381,7 +386,7 @@
             white-space: nowrap;
         }
 
-        /* Contact Form */
+     
         .contact-section {
             background: linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)), url('https://media.istockphoto.com/id/1660570200/photo/hand-of-call-center-touching-on-screen-contact-us-email-address-operator-customer-suppor.webp?a=1&b=1&s=612x612&w=0&k=20&c=NhV81vE6U-_OT6pBqRjUOEof8QzskCgk7z2nxnEEhSE=') center/cover no-repeat;
         }
@@ -526,6 +531,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 1.2rem;
+            background: linear-gradient(135deg, #5ea4dd, #00c3ff);
         }
 
         .social-icon:hover {
@@ -618,7 +624,7 @@
     </style>
 </head>
 <body>
-    <!-- Background Video Container -->
+    
     <div class="video-container">
         <video autoplay loop muted playsinline id="bg-video">
             <source src="https://cdn.pixabay.com/video/2023/02/25/152184-802335622_tiny.mp4" type="video/mp4">
@@ -653,7 +659,8 @@
 
         <section class="hero" id="home">
             <div class="quote-container">
-                <h1 class="title">Smart System, Safer Journeys</h1>
+                <h1 class="title">Where Vision Meets Precision
+                </h1>
                 <p class="quote">"Our AI doesn't just see the road, it predicts the future. Advanced algorithms that transform ordinary cameras into lifesaving technology."</p>
                 <button class="cta-button" style="opacity: 1;"> <a href="/options" style="text-decoration: none;">Get Started</a></button>
                 
@@ -665,7 +672,7 @@
             <div class="tech-content">
                 <div class="tech-description">
                     <h3>Final Year Project</h3>
-                    <p>RoadSense AI represents the culmination of cutting-edge research in computer vision and artificial intelligence. Our system transforms ordinary traffic cameras into intelligent sensors that can identify lane markings, detect objects, and predict potential hazards in real-time.</p>
+                    <p>RoadSense AI represents the culmination of cutting-edge research in computer vision and artificial intelligence. Our system transforms ordinary traffic cameras into intelligent sensors that can identify lane markings, detect objects.</p>
                     <p>Developed as a final year project, this technology demonstrates how affordable cameras can replace expensive sensors, making advanced safety systems accessible to all communities and transportation authorities.</p>
                     <ul>
                         <li>Real-time processing at 60+ frames per second</li>
@@ -691,7 +698,7 @@
                     <ul>
                         <li>Real-time lane boundary identification</li>
                         <li>Works on unmarked or faded roads</li>
-                        <li>Night vision capability with infrared support</li>
+                        <li>Night vision capability </li>
                         <li>Curve prediction for proactive steering assistance</li>
                     </ul>
                 </div>
@@ -737,7 +744,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">📱</div>
                     <h3>Web  Integration</h3>
-                    <p>Web Platfrom for demonstrates.</p>
+                    <p>A Web Platform Designed to Demonstrate AI-Based Object and Lane Detection Capabilities for Smarter and Safer Transportation.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌦️</div>
@@ -745,9 +752,9 @@
                     <p>Specialized training ensures our AI performs reliably in rain, fog, snow, and low-light conditions even in sernarios of different country.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔊</div>
-                    <h3>Audio Alerts</h3>
-                    <p>Customizable voice warnings that keep drivers informed without distracting their attention from the road.</p>
+                    <div class="feature-icon">🧠</div>
+                    <h3> AI-Powered Object Recognition</h3>
+                    <p>Detects vehicles, pedestrians, traffic signs, and other road objects in real time.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
@@ -774,19 +781,19 @@
                 <div class="contact-info">
                     <div class="info-item">
                         <span class="icon">📍</span>
-                        <p>Engineering Department, University Campus<br>Innovation Drive, Tech City</p>
+                        <p>Dr. D.Y.Patil Institute of Technology , Pimpri Pune<br>Department of Electonics and Telecommunication </p>
                     </div>
                     <div class="info-item">
                         <span class="icon">📱</span>
-                        <p>+1 (555) 123-4567</p>
+                        <p>+91 840882283</p>
                     </div>
                     <div class="info-item">
                         <span class="icon">✉️</span>
-                        <p>project@roadsense.ai</p>
+                        <p>madhurataldeokar@gmail.com</p>
                     </div>
                     <div class="info-item">
                         <span class="icon">🔗</span>
-                        <p>github.com/roadsense-ai</p>
+                        <p>https://github.com/CoderMadhura</p>
                     </div>
                 </div>
             </div>
@@ -806,10 +813,10 @@
                 <a href="#contact">Contact</a>
             </div>
             <div class="social-icons">
-                <a href="#" class="social-icon">🐦</a>
-                <a href="#" class="social-icon">📘</a>
-                <a href="#" class="social-icon">📸</a>
-                <a href="#" class="social-icon">🎥</a>
+                <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM265.8 407.7c0-1.8 0-6 .1-11.6c.1-11.4 .1-28.8 .1-43.7c0-15.6-5.2-25.5-11.3-30.7c37-4.1 76-9.2 76-73.1c0-18.2-6.5-27.3-17.1-39c1.7-4.3 7.4-22-1.7-45c-13.9-4.3-45.7 17.9-45.7 17.9c-13.2-3.7-27.5-5.6-41.6-5.6s-28.4 1.9-41.6 5.6c0 0-31.8-22.2-45.7-17.9c-9.1 22.9-3.5 40.6-1.7 45c-10.6 11.7-15.6 20.8-15.6 39c0 63.6 37.3 69 74.3 73.1c-4.8 4.3-9.1 11.7-10.6 22.3c-9.5 4.3-33.8 11.7-48.3-13.9c-9.1-15.8-25.5-17.1-25.5-17.1c-16.2-.2-1.1 10.2-1.1 10.2c10.8 5 18.4 24.2 18.4 24.2c9.7 29.7 56.1 19.7 56.1 19.7c0 9 .1 21.7 .1 30.6c0 4.8 .1 8.6 .1 10c0 4.3-3 9.5-11.5 8C106 393.6 59.8 330.8 59.8 257.4c0-91.8 70.2-161.5 162-161.5s166.2 69.7 166.2 161.5c.1 73.4-44.7 136.3-110.7 158.3c-8.4 1.5-11.5-3.7-11.5-8zm-90.5-54.8c-.2-1.5 1.1-2.8 3-3.2c1.9-.2 3.7 .6 3.9 1.9c.3 1.3-1 2.6-3 3c-1.9 .4-3.7-.4-3.9-1.7zm-9.1 3.2c-2.2 .2-3.7-.9-3.7-2.4c0-1.3 1.5-2.4 3.5-2.4c1.9-.2 3.7 .9 3.7 2.4c0 1.3-1.5 2.4-3.5 2.4zm-14.3-2.2c-1.9-.4-3.2-1.9-2.8-3.2s2.4-1.9 4.1-1.5c2 .6 3.3 2.1 2.8 3.4c-.4 1.3-2.4 1.9-4.1 1.3zm-12.5-7.3c-1.5-1.3-1.9-3.2-.9-4.1c.9-1.1 2.8-.9 4.3 .6c1.3 1.3 1.8 3.3 .9 4.1c-.9 1.1-2.8 .9-4.3-.6zm-8.5-10c-1.1-1.5-1.1-3.2 0-3.9c1.1-.9 2.8-.2 3.7 1.3c1.1 1.5 1.1 3.3 0 4.1c-.9 .6-2.6 0-3.7-1.5zm-6.3-8.8c-1.1-1.3-1.3-2.8-.4-3.5c.9-.9 2.4-.4 3.5 .6c1.1 1.3 1.3 2.8 .4 3.5c-.9 .9-2.4 .4-3.5-.6zm-6-6.4c-1.3-.6-1.9-1.7-1.5-2.6c.4-.6 1.5-.9 2.8-.4c1.3 .7 1.9 1.8 1.5 2.6c-.4 .9-1.7 1.1-2.8 .4z"/></svg></a>
+                <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></a>
+                <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1c0-25.9 21.2-47.1 47.1-47.1h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1V315.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1S139 32 164.9 32s47.1 21.2 47.1 47.1v47.1H164.9zm0 23.7c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1H164.9zm189 47.1c0-25.9 21.2-47.1 47.1-47.1 25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1h-47.1V196.9zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1-25.9 0-47.1-21.2-47.1-47.1V79.1c0-25.9 21.2-47.1 47.1-47.1 25.9 0 47.1 21.2 47.1 47.1V196.9zM283.1 385.9c25.9 0 47.1 21.2 47.1 47.1 0 25.9-21.2 47.1-47.1 47.1-25.9 0-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1 0-25.9 21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1 0 25.9-21.2 47.1-47.1 47.1H283.1z"/></svg></a>
             </div>
             <p class="copyright">© 2025 RoadSense AI | Final Year Project. All rights reserved.</p>
         </div>
@@ -828,9 +835,7 @@
         
         const music = document.getElementById('bg-music');
 
-  // Try to unmute and play after user interaction (1st time visit)
   document.addEventListener('DOMContentLoaded', () => {
-    // Attempt to play muted audio
     music.play().then(() => {
       console.log("Muted autoplay started.");
     }).catch(err => {
@@ -838,7 +843,6 @@
     });
   });
 
-  // Unmute and play after ANY user interaction
   function activateSound() {
     music.muted = false;
     music.play().then(() => {
@@ -847,11 +851,9 @@
       console.warn("Play still blocked.", err);
     });
 
-    // Remove listener so it only happens once
     document.removeEventListener('click', activateSound);
   }
 
-  // Set event listener for unmuting on user interaction
   document.addEventListener('click', activateSound);
 
 
@@ -863,37 +865,26 @@
 
 
 
-        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Register ScrollTrigger plugin
             gsap.registerPlugin(ScrollTrigger);
             
-            // Initialize animations
             initAnimations();
             
-            // Initialize lane detection animation
             initLaneDetection();
             
-            // Initialize object detection animation
             initObjectDetection();
         });
 
-        // Main animation initializer
         function initAnimations() {
-            // Animate header on page load
             animateHeader();
             
-            // Animate hero section
             animateHero();
             
-            // Animate sections on scroll
             animateSections();
             
-            // Animate feature cards
             animateFeatureCards();
         }
 
-        // Animate the header and navigation
         function animateHeader() {
             const tl = gsap.timeline();
             
@@ -912,7 +903,6 @@
                 ease: 'power2.out'
             }, '-=0.5');
             
-            // Change header background on scroll
             ScrollTrigger.create({
                 start: 'top top',
                 end: 'bottom bottom',
@@ -927,7 +917,6 @@
             });
         }
 
-        // Animate the hero section
         function animateHero() {
             const tl = gsap.timeline();
             
@@ -959,13 +948,10 @@
             }, '-=0.5');
         }
 
-        // Animate sections as they come into view
         function animateSections() {
-            // Select all sections except the hero
             const sections = document.querySelectorAll('.section');
             
             sections.forEach(section => {
-                // Animate section heading
                 gsap.from(section.querySelector('h2'), {
                     y: 50,
                     opacity: 0,
@@ -978,7 +964,6 @@
                     }
                 });
                 
-                // Animate section content
                 const content = section.querySelector('.tech-content, .features-container, .contact-container');
                 if (content) {
                     gsap.from(content, {
@@ -996,12 +981,10 @@
             });
         }
 
-        // Initialize lane detection animation
         function initLaneDetection() {
             const road = document.getElementById('road');
             
             if (road) {
-                // Create lane markers
                 for (let i = 0; i < 20; i++) {
                     const leftLane = document.createElement('div');
                     leftLane.classList.add('lane-marker');
@@ -1015,7 +998,6 @@
                     rightLane.style.top = `${-100 + i * 150}px`;
                     road.appendChild(rightLane);
                     
-                    // Animate lane markers
                     gsap.to(leftLane, {
                         y: 800,
                         duration: 4,
@@ -1033,7 +1015,6 @@
                     });
                 }
                 
-                // Create dynamic lane marker analysis effect
                 setInterval(() => {
                     const analysisMark = document.createElement('div');
                     analysisMark.style.position = 'absolute';
@@ -1057,12 +1038,10 @@
             }
         }
 
-        // Initialize object detection animation
         function initObjectDetection() {
             const container = document.getElementById('detection-container');
             
             if (container) {
-                // Define object types
                 const objectTypes = [
                     { type: 'car', width: 80, height: 40, color: 'rgba(0, 195, 255, 0.2)' },
                     { type: 'pedestrian', width: 20, height: 40, color: 'rgba(255, 0, 128, 0.2)' },
@@ -1070,7 +1049,6 @@
                     { type: 'truck', width: 100, height: 50, color: 'rgba(0, 255, 128, 0.2)' }
                 ];
                 
-                // Create objects periodically
                 setInterval(() => {
                     const objectType = objectTypes[Math.floor(Math.random() * objectTypes.length)];
                     const object = document.createElement('div');
@@ -1087,7 +1065,6 @@
                     
                     container.appendChild(object);
                     
-                    // Create detection box with slight delay to simulate detection process
                     setTimeout(() => {
                         const detectionBox = document.createElement('div');
                         detectionBox.classList.add('detection-box');
@@ -1096,7 +1073,6 @@
                         detectionBox.style.left = (posX - 5) + 'px';
                         detectionBox.style.top = (posY - 5) + 'px';
                         
-                        // Add label
                         const label = document.createElement('div');
                         label.classList.add('detection-label');
                         label.innerText = objectType.type + ' ' + Math.floor(Math.random() * 100) + '%';
@@ -1104,7 +1080,6 @@
                         
                         container.appendChild(detectionBox);
                         
-                        // Animate detection box
                         gsap.to(detectionBox, {
                             boxShadow: '0 0 10px rgba(0, 195, 255, 0.7)',
                             borderColor: '#00c3ff',
@@ -1113,7 +1088,6 @@
                             repeat: 3
                         });
                         
-                        // Remove objects after animation
                         setTimeout(() => {
                             object.remove();
                             detectionBox.remove();
@@ -1123,7 +1097,6 @@
             }
         }
 
-        // Animate feature cards
         function animateFeatureCards() {
             const cards = document.querySelectorAll('.feature-card');
             
@@ -1142,7 +1115,7 @@
             });
         }
 
-        // Add page preloader
+       
         window.addEventListener('load', function() {
             const preloader = document.createElement('div');
             preloader.classList.add('preloader');
@@ -1155,7 +1128,6 @@
             `;
             document.body.appendChild(preloader);
             
-            // Animate preloader
             const tl = gsap.timeline();
             tl.to('.bar', {
                 height: '100px',
