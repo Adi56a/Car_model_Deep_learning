@@ -23,6 +23,7 @@
       margin: 0;
       overflow-x: hidden;
     }
+
     .nav {
       width: 100%;
       position: fixed;
@@ -55,13 +56,32 @@
       opacity: 0.8;
     }
     .nav-item:hover { color: var(--accent); opacity: 1; }
+
+    header {
+      padding: 6rem 2rem 2rem;
+      text-align: center;
+      max-width: 900px;
+      margin: auto;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    header p {
+      font-size: 1.15rem;
+      margin-top: 1rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
     main {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
-      padding-top: 100px;
+      padding-top: 40px;
       gap: 3vw;
       width: 100vw;
     }
@@ -91,7 +111,7 @@
       box-shadow: 0 12px 40px 0 rgba(45,212,191,0.10);
     }
     .hero-text {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 300;
       margin-bottom: 2rem;
       text-align: center;
@@ -133,9 +153,10 @@
       color: var(--accent);
       font-weight: 500;
       letter-spacing: 0.2px;
-      word-break: break-all;
+      word-break: break-word;
     }
     #file-input { display: none; }
+
     #submit-btn {
       background: linear-gradient(90deg, var(--accent), #14b8a6);
       border: none;
@@ -154,6 +175,7 @@
       box-shadow: 0 6px 24px 0 rgba(45,212,191,0.17);
       transform: translateY(-2px) scale(1.03);
     }
+
     .result-card h2 {
       font-weight: 400;
       font-size: 1.4rem;
@@ -184,6 +206,15 @@
       background: linear-gradient(90deg, #14b8a6, var(--accent));
       box-shadow: 0 6px 24px 0 rgba(45,212,191,0.14);
     }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.95rem;
+      color: #94a3b8;
+      border-top: 1px solid var(--border);
+    }
+
     @media (max-width: 900px) {
       main { flex-direction: column; align-items: stretch; gap: 0; }
       .upload-section, .result-section { max-width: 100vw; min-width: 0; }
@@ -199,13 +230,25 @@
   <nav class="nav">
     <div class="logo">YOLO-P<span>Vision</span></div>
     <div class="nav-links">
-    
+      <a href="/" class="nav-item">Home</a>
+      <a href="/#about" class="nav-item">About</a>
+      <a href="/options" class="nav-item">Others</a>
+      <a href="/#contact" class="nav-item">Contact</a>
     </div>
   </nav>
+
+  <header>
+    <h1>Smart Lane Detection Suite</h1>
+    <p>
+      Empowered by deep learning and computer vision, this tool detects lane lines in real-time images.
+      Upload your road image and watch the power of the YOLO-P lane perception model in action.
+    </p>
+  </header>
+
   <main data-scroll-container>
     <section class="upload-section" data-scroll>
       <div class="upload-card">
-        <div class="hero-text">Advanced Lane Detection</div>
+        <div class="hero-text">Upload an Image to Detect Lane Lines</div>
         <form method="POST" enctype="multipart/form-data">
           <label class="custom-upload">
             <input type="file" name="file" id="file-input" accept="image/*" required>
@@ -223,6 +266,7 @@
         </form>
       </div>
     </section>
+
     <section class="result-section" data-scroll>
       {% if result %}
       <div class="result-card">
@@ -235,26 +279,30 @@
       {% endif %}
     </section>
   </main>
+
+  <footer>
+    © 2025 YOLO-P Vision Suite — Built for intelligent transportation systems
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
   <script>
-    // Locomotive Scroll
     const scroll = new LocomotiveScroll({
       el: document.querySelector('[data-scroll-container]'),
       smooth: true,
       smartphone: { smooth: true },
       tablet: { smooth: true }
     });
-    // GSAP Animations
+
     gsap.from(".nav", { y: -40, opacity: 0, duration: 1, ease: "power4.out" });
     gsap.from(".upload-card", { y: 40, opacity: 0, duration: 1, delay: 0.3, ease: "power4.out" });
     gsap.from(".hero-text", { y: 30, opacity: 0, duration: 1, delay: 0.5, ease: "power4.out" });
     gsap.from(".nav-item", { x: -20, opacity: 0, duration: 0.8, stagger: 0.1, delay: 0.7, ease: "expo.out" });
-    // Animate result card if present
+
     if(document.querySelector('.result-card')) {
       gsap.from(".result-card", { scale: 0.95, opacity: 0, duration: 0.8, delay: 0.6, ease: "power4.out" });
     }
-    // Show selected file name
+
     document.getElementById('file-input').addEventListener('change', function(e){
       const file = e.target.files[0];
       document.getElementById('file-name').textContent = file ? file.name : '';
