@@ -23,9 +23,7 @@ os.makedirs(STATIC_FOLDER, exist_ok=True)
 os.makedirs(INFERENCE_INPUT, exist_ok=True)
 os.makedirs(INFERENCE_OUTPUT, exist_ok=True)
 
-# =========================
-# Main YOLO-P Lane Detection
-# =========================
+
 
 @app.route('/')
 def index():
@@ -65,9 +63,7 @@ def lane_detection():
 def download_lane_result(filename):
     return send_file(os.path.join(STATIC_FOLDER, filename), as_attachment=True)
 
-# =========================
-# Object Detection Routes
-# =========================
+
 @app.route('/od_video')
 def od_video():
     return render_template('object_detection_video.html')
@@ -104,8 +100,6 @@ def download_video():
 def download_image():
     return send_from_directory(directory=STATIC_FOLDER, path="output_image.jpg", as_attachment=True)
 
-# =========================
-# Run the App
-# =========================
+
 if __name__ == '__main__':
     app.run(debug=True)
